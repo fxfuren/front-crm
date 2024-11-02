@@ -2,7 +2,7 @@
 
 import { type PropsWithChildren } from 'react'
 
-import { TanstackQueryProvider } from './index'
+import { TanstackQueryProvider, ThemeProvider } from './index'
 
 /**
  * Оборачивает дочерние элементы в провайдеры для управления состоянием, темами и уведомлениями.
@@ -11,5 +11,16 @@ import { TanstackQueryProvider } from './index'
  * @returns {JSX.Element} - Провайдеры с дочерними элементами.
  */
 export function MainProvider({ children }: PropsWithChildren<unknown>) {
-	return <TanstackQueryProvider>{children}</TanstackQueryProvider>
+	return (
+		<TanstackQueryProvider>
+			<ThemeProvider
+				attribute='class'
+				defaultTheme='light'
+				disableTransitionOnChange
+				storageKey='teacoder-theme'
+			>
+				{children}
+			</ThemeProvider>
+		</TanstackQueryProvider>
+	)
 }
