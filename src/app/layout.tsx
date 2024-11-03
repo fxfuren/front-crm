@@ -1,15 +1,17 @@
+import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 
-import { ToggleTheme } from '@/shared/components/ui/ToggleTheme'
+import { ToggleTheme } from '@/shared/components/ui'
 import { MainProvider } from '@/shared/providers'
 import '@/shared/styles/globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
 	title: {
-		absolute: 'crm-app'
-	}
+		absolute: 'Курс по авторизации',
+		template: '%s | Курс по авторизации'
+	},
+	description:
+		'Это учебный проект, созданный для демонстрации полного цикла авторизации пользователей'
 }
 
 export default function RootLayout({
@@ -19,7 +21,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={inter.className}>
+			<body className={GeistSans.variable}>
 				<MainProvider>
 					<div className='relative flex min-h-screen flex-col'>
 						<ToggleTheme />

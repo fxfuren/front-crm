@@ -9,7 +9,7 @@ export const SettingsSchema = z.object({
 	}),
 	email: z.string().email({
 		message: 'Некорректная почта'
-	}),
+	})
 })
 
 /**

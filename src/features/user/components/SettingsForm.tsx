@@ -18,11 +18,11 @@ import {
 	Input,
 	Loading
 } from '@/shared/components/ui'
+import { useProfile } from '@/shared/hooks'
 
 import { useUpdateProfileMutation } from '../hooks'
 import { SettingsSchema, type TypeSettingsSchema } from '../schemes'
 
-import { useProfile } from '@/shared/hooks'
 import { UserButton, UserButtonLoading } from './index'
 
 /**
@@ -35,7 +35,7 @@ export function SettingsForm() {
 		resolver: zodResolver(SettingsSchema),
 		values: {
 			name: user?.displayName || '',
-			email: user?.email || '',
+			email: user?.email || ''
 		}
 	})
 

@@ -1,17 +1,11 @@
-import { SettingsForm } from '@/features/user/components'
-import { buttonVariants } from '@/shared/components/ui'
-import { MoveLeft } from 'lucide-react'
-import Link from 'next/link'
+import type { Metadata } from 'next'
 
+import { SettingsForm } from '@/features/user/components/SettingsForm'
+
+export const metadata: Metadata = {
+	title: 'Настройки профиля'
+}
 
 export default function SettingsPage() {
-	return (
-		<div className='space-y-5 text-center'>
-			<Link href='/dashboard' className={buttonVariants()}>
-				<MoveLeft />
-				Dashboard
-			</Link>
-			<SettingsForm />
-		</div>
-	)
+	return <SettingsForm />
 }

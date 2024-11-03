@@ -1,8 +1,7 @@
 import { api } from '@/shared/api'
 
 import type { TypeLoginSchema, TypeRegisterSchema } from '../schemes'
-import { IAuthResponse } from '../types'
-
+import type { IAuthResponse } from '../types'
 
 /**
  * Сервис для работы с аутентификацией.

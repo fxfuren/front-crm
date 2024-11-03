@@ -16,6 +16,7 @@ interface AuthWrapperProps {
 	description?: string
 	backButtonLabel?: string
 	backButtonHref?: string
+	isShowSocial?: boolean
 }
 
 /**
@@ -30,7 +31,8 @@ export function AuthWrapper({
 	heading,
 	description,
 	backButtonLabel,
-	backButtonHref
+	backButtonHref,
+	isShowSocial = false
 }: PropsWithChildren<AuthWrapperProps>) {
 	return (
 		<Card className='w-[400px]'>

@@ -1,7 +1,7 @@
 import { api } from '@/shared/api'
 
 import type { TypeSettingsSchema } from '../schemes'
-import { IUser } from '../types'
+import type { IUser } from '../types'
 
 /**
  * Сервис для работы с пользователями.

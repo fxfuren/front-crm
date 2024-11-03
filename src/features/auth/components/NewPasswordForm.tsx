@@ -18,9 +18,9 @@ import {
 	Input
 } from '@/shared/components/ui'
 
+import { useNewPasswordMutation } from '../hooks'
 import { NewPasswordSchema, type TypeNewPasswordSchema } from '../schemes'
 
-import { useNewPasswordMutation } from '../hooks'
 import { AuthWrapper } from './index'
 
 /**
