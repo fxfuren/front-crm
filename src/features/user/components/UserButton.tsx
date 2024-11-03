@@ -1,9 +1,8 @@
-import { LuLogOut } from 'react-icons/lu'
+import { LogOutIcon } from 'lucide-react'
 
 import {
 	Avatar,
 	AvatarFallback,
-	AvatarImage,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -32,7 +31,6 @@ export function UserButton({ user }: UserButtonProps) {
 		<DropdownMenu>
 			<DropdownMenuTrigger>
 				<Avatar>
-					<AvatarImage src={user.picture} />
 					<AvatarFallback>
 						{user.displayName.slice(0, 1)}
 					</AvatarFallback>
@@ -43,7 +41,7 @@ export function UserButton({ user }: UserButtonProps) {
 					disabled={isLoadingLogout}
 					onClick={() => logout()}
 				>
-					<LuLogOut className='mr-2 size-4' />
+					<LogOutIcon className='mr-2 size-4' />
 					Выйти
 				</DropdownMenuItem>
 			</DropdownMenuContent>
