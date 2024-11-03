@@ -18,6 +18,7 @@ import {
 	Input
 } from '@/shared/components/ui'
 
+import { useRegisterMutation } from '../hooks'
 import { RegisterSchema, type TypeRegisterSchema } from '../schemes'
 
 import { AuthWrapper } from './index'
@@ -39,9 +40,11 @@ export function RegisterForm() {
 		}
 	})
 
+	const { register, isLoadingRegister } = useRegisterMutation()
+
 	const onSubmit = (values: TypeRegisterSchema) => {
 		if (recaptchaValue) {
-			// register({ values, recaptcha: recaptchaValue })
+			register({ values, recaptcha: recaptchaValue })
 		} else {
 			toast.error('Пожалуйста, завершите reCAPTCHA')
 		}
@@ -66,7 +69,11 @@ export function RegisterForm() {
 							<FormItem>
 								<FormLabel>Имя</FormLabel>
 								<FormControl>
-									<Input placeholder='Иван' {...field} />
+									<Input
+										placeholder='Иван'
+										disabled={isLoadingRegister}
+										{...field}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -81,6 +88,7 @@ export function RegisterForm() {
 								<FormControl>
 									<Input
 										placeholder='ivan@example.com'
+										disabled={isLoadingRegister}
 										type='email'
 										{...field}
 									/>
@@ -98,6 +106,7 @@ export function RegisterForm() {
 								<FormControl>
 									<Input
 										placeholder='******'
+										disabled={isLoadingRegister}
 										type='password'
 										{...field}
 									/>
@@ -115,6 +124,7 @@ export function RegisterForm() {
 								<FormControl>
 									<Input
 										placeholder='******'
+										disabled={isLoadingRegister}
 										type='password'
 										{...field}
 									/>
@@ -132,7 +142,9 @@ export function RegisterForm() {
 							theme={theme === 'light' ? 'light' : 'dark'}
 						/>
 					</div>
-					<Button type='submit'>Создать аккаунт</Button>
+					<Button type='submit' disabled={isLoadingRegister}>
+						Создать аккаунт
+					</Button>
 				</form>
 			</Form>
 		</AuthWrapper>
