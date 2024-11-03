@@ -1,7 +1,8 @@
 import { api } from '@/shared/api'
 
 import type { TypeLoginSchema, TypeRegisterSchema } from '../schemes'
-import { IUser } from '../types'
+import { IAuthResponse } from '../types'
+
 
 /**
  * Сервис для работы с аутентификацией.
@@ -17,7 +18,7 @@ class AuthService {
 	public async register(body: TypeRegisterSchema, recaptcha?: string) {
 		const headers = recaptcha ? { recaptcha } : undefined
 
-		const response = await api.post<IUser>('auth/register', body, {
+		const response = await api.post<IAuthResponse>('auth/register', body, {
 			headers
 		})
 
@@ -34,23 +35,9 @@ class AuthService {
 	public async login(body: TypeLoginSchema, recaptcha?: string) {
 		const headers = recaptcha ? { recaptcha } : undefined
 
-		const response = await api.post<IUser>('auth/login', body, {
+		const response = await api.post<IAuthResponse>('auth/login', body, {
 			headers
 		})
-
-		return response
-	}
-
-	/**
-	 * Аутентификация через провайдера.
-	 *
-	 * @param {'google' | 'yandex'} provider - Провайдер для аутентификации.
-	 * @returns {Promise<{ url: string }>} - URL для аутентификации.
-	 */
-	public async oauthByProvider(provider: 'google' | 'yandex') {
-		const response = await api.get<{ url: string }>(
-			`auth/oauth/connect/${provider}`
-		)
 
 		return response
 	}
