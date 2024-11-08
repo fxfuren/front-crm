@@ -47,7 +47,7 @@ export function SettingsForm() {
 
 	if (isLoading) {
 		return (
-			<Card className='w-[400px]'>
+			<Card>
 				<CardHeader className='flex flex-row items-center justify-between'>
 					<CardTitle>Настройки профиля</CardTitle>
 					<UserButtonLoading />
@@ -60,7 +60,7 @@ export function SettingsForm() {
 	}
 
 	return (
-		<Card className='w-[400px]'>
+		<Card>
 			<CardHeader className='flex flex-row items-center justify-between'>
 				<CardTitle>Настройки профиля</CardTitle>
 				{!isLoading && user ? (
