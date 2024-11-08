@@ -1,5 +1,8 @@
+'use client'
+
 import { Home, Inbox } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 import {
 	Sidebar,
@@ -25,6 +28,8 @@ const items = [
 ]
 
 export function SettignsSidebar() {
+	const pathname = usePathname()
+
 	return (
 		<Sidebar collapsible='none' className='hidden min-h-screen md:flex'>
 			<SidebarContent>
@@ -33,7 +38,10 @@ export function SettignsSidebar() {
 						<SidebarMenu>
 							{items.map(item => (
 								<SidebarMenuItem key={item.title}>
-									<SidebarMenuButton asChild>
+									<SidebarMenuButton
+										asChild
+										isActive={pathname === item.url}
+									>
 										<Link href={item.url}>
 											<item.icon />
 											<span>{item.title}</span>
