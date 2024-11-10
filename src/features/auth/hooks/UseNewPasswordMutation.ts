@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
 
+import { pageConfig } from '@/shared/config'
 import { toastMessageHandler } from '@/shared/utils'
 
 import { TypeNewPasswordSchema } from '../schemes'
@@ -29,7 +30,7 @@ export function useNewPasswordMutation() {
 			toast.success('Пароль успешно изменён', {
 				description: 'Теперь вы можете войти в свой аккаунт.'
 			})
-			router.push('/auth/login')
+			router.push(pageConfig.auth.login)
 		},
 		onError(error) {
 			toastMessageHandler(error)

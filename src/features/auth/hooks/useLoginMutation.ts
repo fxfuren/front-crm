@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation'
 import type { Dispatch, SetStateAction } from 'react'
 import { toast } from 'sonner'
 
+import { pageConfig } from '@/shared/config'
 import { toastMessageHandler } from '@/shared/utils'
 
 import type { TypeLoginSchema } from '../schemes'
@@ -31,7 +32,7 @@ export function useLoginMutation(
 				setIsShowFactor(true)
 			} else {
 				toast.success('Успешная авторизация')
-				router.push('/dashboard/settings')
+				router.push(pageConfig.dashboard.main)
 			}
 		},
 		onError(error) {

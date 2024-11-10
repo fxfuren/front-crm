@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 
 import { authService } from '@/features/auth/services'
 
+import { pageConfig } from '@/shared/config'
 import { toastMessageHandler } from '@/shared/utils'
 
 /**
@@ -20,7 +21,7 @@ export function useLogoutMutation() {
 		mutationFn: () => authService.logout(),
 		onSuccess() {
 			toast.success('Вы успешно вышли из системы')
-			router.push('/auth/login')
+			router.push(pageConfig.auth.login)
 			queryClient.clear()
 		},
 		onError(error) {
