@@ -50,6 +50,16 @@ class UserService {
 		const response = await api.get<any[]>('users/invite-tokens')
 		return response
 	}
+
+	/**
+	 * Получает все зарегистрированных пользователей.
+	 *
+	 * @returns {Promise<any[]>} - Массив инвайт токенов.
+	 */
+	public async getUsers() {
+		const response = await api.get<IUser>('users')
+		return response
+	}
 }
 
 export const userService = new UserService()
