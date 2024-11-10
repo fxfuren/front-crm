@@ -16,7 +16,8 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-	Input
+	Input,
+	Label
 } from '@/shared/components/ui'
 
 import { useLoginMutation } from '../hooks'
@@ -54,8 +55,6 @@ export function LoginForm() {
 		<AuthWrapper
 			heading='Войти'
 			description='Чтобы войти на сайт введите ваш email и пароль'
-			backButtonLabel='Еще нет аккаунта? Регистрация'
-			backButtonHref='/auth/register'
 		>
 			<Form {...form}>
 				<form
@@ -143,6 +142,9 @@ export function LoginForm() {
 					</Button>
 				</form>
 			</Form>
+			<Label className='mt-4 flex text-center'>
+				Нет аккаунта? Запросите ссылку у Администратора
+			</Label>
 		</AuthWrapper>
 	)
 }

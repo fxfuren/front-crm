@@ -13,21 +13,22 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem
 } from '@/shared/components/ui'
+import { pageConfig } from '@/shared/config'
 
 const items = [
 	{
 		title: 'Профиль',
-		url: '/dashboard/settings/profile',
+		url: pageConfig.dashboard.settings.profile,
 		icon: Home
 	},
 	{
 		title: 'Приглашение',
-		url: '/dashboard/settings/invitation',
+		url: pageConfig.dashboard.settings.invitation,
 		icon: Inbox
 	},
 	{
 		title: 'Пользователи',
-		url: '/dashboard/settings/users',
+		url: pageConfig.dashboard.settings.users,
 		icon: Users
 	}
 ]
