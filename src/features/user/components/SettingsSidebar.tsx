@@ -1,6 +1,6 @@
 'use client'
 
-import { Home, Inbox } from 'lucide-react'
+import { Home, Inbox, Users } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -24,6 +24,11 @@ const items = [
 		title: 'Приглашение',
 		url: '/dashboard/settings/invitation',
 		icon: Inbox
+	},
+	{
+		title: 'Пользователи',
+		url: '/dashboard/settings/users',
+		icon: Users
 	}
 ]
 
