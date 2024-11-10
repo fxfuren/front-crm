@@ -1,4 +1,5 @@
 export * from './useGenerateInviteMutations'
+export * from './useGetUsers'
 export * from './useLogoutMutation'
 export * from './useTokens'
 export * from './useUpdateProfileMutation'
