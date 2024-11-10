@@ -1,6 +1,6 @@
 import { api } from '@/shared/api'
 
-import type { TypeSettingsSchema } from '../schemes'
+import type { TypeSettingsSchema, TypeUpdateRoleSchema } from '../schemes'
 import { IUser } from '../types'
 
 /**
@@ -58,6 +58,17 @@ class UserService {
 	 */
 	public async getUsers() {
 		const response = await api.get<IUser>('users')
+		return response
+	}
+
+	/**
+	 * Обновляет роль у выбранного пользователя.
+	 *
+	 * @param {TypeSettingsSchema} body - Данные для обновления профиля.
+	 * @returns {Promise<IUser>} - Обновленный профиль пользователя.
+	 */
+	public async updateRoleUser(userId: string, body: TypeUpdateRoleSchema) {
+		const response = await api.patch<IUser>(`users/${userId}/role`, body)
 		return response
 	}
 }
