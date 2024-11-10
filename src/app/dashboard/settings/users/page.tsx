@@ -1,4 +1,4 @@
-import { UsersBlock } from '@/features/auth/components'
+import { UsersBlock } from '@/features/user/components'
 
 export default function ProfilePage() {
 	return (
