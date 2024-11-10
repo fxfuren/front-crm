@@ -12,7 +12,7 @@ import {
 } from '@/shared/components/ui'
 import { useProfile } from '@/shared/hooks'
 
-export default function UsersBlock() {
+export function UsersBlock() {
 	const { users } = useGetUsers()
 	const { user } = useProfile()
 
