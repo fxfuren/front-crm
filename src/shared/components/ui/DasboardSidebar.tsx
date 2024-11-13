@@ -14,6 +14,7 @@ import {
 	SidebarContent,
 	SidebarFooter,
 	SidebarHeader,
+	SidebarMenuButton,
 	SidebarRail
 } from './Sidebar'
 
@@ -45,7 +46,17 @@ export function DasboardSidebar({
 	return (
 		<Sidebar collapsible='icon' {...props}>
 			<SidebarHeader>
-				<Braces />
+				<SidebarMenuButton size='lg' asChild>
+					<div>
+						<div className='bg-sidebar-bordertext-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
+							<Braces className='size-4' />
+						</div>
+						<div className='flex flex-col gap-0.5 leading-none'>
+							<span className='font-semibold'>crm-app</span>
+							<span className=''>v1.0</span>
+						</div>
+					</div>
+				</SidebarMenuButton>
 			</SidebarHeader>
 			<SidebarContent>
 				<NavMain items={data.navMain} />
