@@ -12,7 +12,7 @@ export default function SettingsLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<SidebarProvider className='flex min-h-screen items-center justify-center'>
+		<SidebarProvider className='flex items-center justify-center'>
 			<Alert className='flex h-[500px] w-full max-w-4xl overflow-hidden'>
 				<SettignsSidebar />
 				<main className='flex h-full w-full flex-1 flex-col overflow-hidden p-6'>
