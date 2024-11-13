@@ -1,10 +1,6 @@
-import { MoveLeft } from 'lucide-react'
-import Link from 'next/link'
-
 import { SettignsSidebar } from '@/features/user/components'
 
-import { Alert, SidebarProvider, buttonVariants } from '@/shared/components/ui'
-import { pageConfig } from '@/shared/config'
+import { Alert, SidebarProvider } from '@/shared/components/ui'
 
 export default function SettingsLayout({
 	children
@@ -17,13 +13,6 @@ export default function SettingsLayout({
 				<SettignsSidebar />
 				<main className='flex h-full w-full flex-1 flex-col overflow-hidden p-6'>
 					<div className='flex flex-1 flex-col gap-4 overflow-y-auto'>
-						<Link
-							href={pageConfig.dashboard.main}
-							className={buttonVariants()}
-						>
-							<MoveLeft />
-							Dashboard
-						</Link>
 						{children}
 					</div>
 				</main>
