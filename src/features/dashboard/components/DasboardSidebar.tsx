@@ -3,12 +3,6 @@
 import { Braces, Home, Package, ShoppingBag } from 'lucide-react'
 import * as React from 'react'
 
-import { pageConfig } from '@/shared/config'
-import { useProfile } from '@/shared/hooks'
-
-import { NavUser } from '../../../features/user/components/NavUser'
-
-import { NavMain } from './NavMain'
 import {
 	Sidebar,
 	SidebarContent,
@@ -16,7 +10,13 @@ import {
 	SidebarHeader,
 	SidebarMenuButton,
 	SidebarRail
-} from './Sidebar'
+} from '@/shared/components/ui'
+import { pageConfig } from '@/shared/config'
+import { useProfile } from '@/shared/hooks'
+
+import { NavUser } from '../../../features/user/components/NavUser'
+
+import { NavMain } from './NavMain'
 
 const data = {
 	navMain: [

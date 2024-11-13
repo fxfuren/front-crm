@@ -1,6 +1,9 @@
 import {
 	BreadcrumbNavbar,
-	DasboardSidebar,
+	DasboardSidebar
+} from '@/features/dashboard/components'
+
+import {
 	Separator,
 	SidebarInset,
 	SidebarProvider,

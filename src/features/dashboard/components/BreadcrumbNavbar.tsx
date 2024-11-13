@@ -10,7 +10,7 @@ import {
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator
-} from './Breadcrumb'
+} from '@/shared/components/ui'
 
 const pathTranslations: {
 	[key: string]: string
