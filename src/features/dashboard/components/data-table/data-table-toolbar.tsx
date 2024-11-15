@@ -3,9 +3,9 @@
 import { Table } from '@tanstack/react-table'
 import { X } from 'lucide-react'
 
-import { Button, Input } from '@/shared/components/ui'
+import { OrderStatus } from '@/features/orders/types'
 
-import { priorities, statuses } from '../../data/data'
+import { Button } from '@/shared/components/ui'
 
 import { DataTableFacetedFilter } from './data-table-faceted-filter'
 import { DataTableViewOptions } from './data-table-view-options'
@@ -22,32 +22,14 @@ export function DataTableToolbar<TData>({
 	return (
 		<div className='flex items-center justify-between'>
 			<div className='flex flex-1 items-center space-x-2'>
-				<Input
-					placeholder='Поиск...'
-					value={
-						(table
-							.getColumn('title')
-							?.getFilterValue() as string) ?? ''
-					}
-					onChange={event =>
-						table
-							.getColumn('title')
-							?.setFilterValue(event.target.value)
-					}
-					className='h-8 w-[150px] lg:w-[250px]'
-				/>
 				{table.getColumn('status') && (
 					<DataTableFacetedFilter
 						column={table.getColumn('status')}
 						title='Статус'
-						options={statuses}
-					/>
-				)}
-				{table.getColumn('priority') && (
-					<DataTableFacetedFilter
-						column={table.getColumn('priority')}
-						title='Приоритет'
-						options={priorities}
+						options={Object.values(OrderStatus).map(status => ({
+							label: status,
+							value: status
+						}))}
 					/>
 				)}
 				{isFiltered && (
