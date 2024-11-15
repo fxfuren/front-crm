@@ -4,11 +4,12 @@ import type { IUser } from '@/features/user/types'
  * Перечисление для статусов заказов.
  */
 export enum OrderStatus {
-	IN_PROGRESS = 'В процессе',
+	InProgress = 'В процессе',
 	Completed = 'Завершен',
-	PENDING = 'В очереди',
-	CANCELLED = 'Отменен'
+	Pending = 'В очереди',
+	Canceled = 'Отмене'
 }
+
 /**
  * Интерфейс для модели заказа.
  */
