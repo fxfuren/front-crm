@@ -11,15 +11,35 @@ import {
 	DropdownMenuTrigger
 } from './index'
 
-export function ToggleTheme() {
-	const { setTheme } = useTheme()
+interface ToggleThemeProps {
+	asButton?: boolean
+}
+
+export function ToggleTheme({ asButton }: ToggleThemeProps) {
+	const { setTheme, theme } = useTheme()
+
+	const triggerClassName = asButton ? 'w-full' : 'absolute right-5 top-5'
+
+	const toggleTheme = () => {
+		setTheme(theme === 'dark' ? 'light' : 'dark')
+	}
+
+	if (asButton) {
+		return (
+			<DropdownMenuItem
+				onClick={toggleTheme}
+				className={`${triggerClassName} pl-0`}
+			>
+				<Sun className='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
+				<Moon className='absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
+				Смена темы
+			</DropdownMenuItem>
+		)
+	}
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger
-				className='absolute right-5 top-5 z-40'
-				asChild
-			>
+			<DropdownMenuTrigger className={triggerClassName} asChild>
 				<Button variant='outline' size='icon'>
 					<Sun className='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
 					<Moon className='absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />

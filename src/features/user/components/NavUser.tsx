@@ -5,6 +5,7 @@ import { ChevronsUpDown, LogOutIcon } from 'lucide-react'
 import { IUser } from '@/features/user/types'
 
 import { Skeleton } from '@/shared/components/ui'
+import { ToggleTheme } from '@/shared/components/ui/ToggleTheme'
 
 import { Avatar, AvatarFallback } from '../../../shared/components/ui/Avatar'
 import {
@@ -93,6 +94,11 @@ export function NavUser({
 								</div>
 							</div>
 						</DropdownMenuLabel>
+
+						<DropdownMenuSeparator />
+						<DropdownMenuItem>
+							<ToggleTheme asButton />
+						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem
 							disabled={isLoadingLogout}
