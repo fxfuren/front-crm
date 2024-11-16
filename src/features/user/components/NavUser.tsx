@@ -1,11 +1,13 @@
 'use client'
 
-import { ChevronsUpDown, LogOutIcon } from 'lucide-react'
+import { ChevronsUpDown, LogOutIcon, Settings } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 import { IUser } from '@/features/user/types'
 
 import { Skeleton } from '@/shared/components/ui'
 import { ToggleTheme } from '@/shared/components/ui/ToggleTheme'
+import { pageConfig } from '@/shared/config'
 
 import { Avatar, AvatarFallback } from '../../../shared/components/ui/Avatar'
 import {
@@ -33,6 +35,7 @@ export function NavUser({
 }) {
 	const { isMobile } = useSidebar()
 	const { logout, isLoadingLogout } = useLogoutMutation()
+	const navigate = useRouter()
 
 	return (
 		<SidebarMenu>
@@ -98,6 +101,16 @@ export function NavUser({
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>
 							<ToggleTheme asButton />
+						</DropdownMenuItem>
+						<DropdownMenuItem
+							onClick={() =>
+								navigate.push(
+									pageConfig.dashboard.settings.main
+								)
+							}
+						>
+							<Settings className='mr-2 size-4' />
+							Настройки
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem
