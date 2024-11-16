@@ -18,7 +18,7 @@ interface ToggleThemeProps {
 export function ToggleTheme({ asButton }: ToggleThemeProps) {
 	const { setTheme, theme } = useTheme()
 
-	const triggerClassName = asButton ? 'w-full' : 'absolute right-5 top-5'
+	const triggerClassName = asButton ? 'w-full' : 'absolute left-5 top-5'
 
 	const toggleTheme = () => {
 		setTheme(theme === 'dark' ? 'light' : 'dark')
