@@ -23,7 +23,7 @@ export default function RootLayout({
 				<MainProvider>
 					<div className='relative flex min-h-screen flex-col'>
 						<ToggleTheme />
-						<div className='flex h-screen w-full items-center justify-center px-4'>
+						<div className='flex h-screen w-full items-center justify-center'>
 							{children}
 						</div>
 					</div>
