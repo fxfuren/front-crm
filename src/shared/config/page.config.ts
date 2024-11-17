@@ -10,6 +10,9 @@ class PageConfig {
 
 	dashboard = {
 		main: '/dashboard',
+		home: '/dashboard/home',
+		orders: '/dashboard/orders',
+		warehouse: '/dashboard/warehouse',
 		settings: {
 			main: '/dashboard/settings',
 			profile: '/dashboard/settings/profile',

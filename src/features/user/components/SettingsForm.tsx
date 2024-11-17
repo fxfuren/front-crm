@@ -23,8 +23,6 @@ import { useProfile } from '@/shared/hooks'
 import { useUpdateProfileMutation } from '../hooks'
 import { SettingsSchema, type TypeSettingsSchema } from '../schemes'
 
-import { UserButton, UserButtonLoading } from './index'
-
 /**
  * Форма для настройки профиля пользователя.
  */
@@ -50,7 +48,6 @@ export function SettingsForm() {
 			<Card>
 				<CardHeader className='flex flex-row items-center justify-between'>
 					<CardTitle>Настройки профиля</CardTitle>
-					<UserButtonLoading />
 				</CardHeader>
 				<CardContent>
 					<Loading />
@@ -63,11 +60,6 @@ export function SettingsForm() {
 		<Card>
 			<CardHeader className='flex flex-row items-center justify-between'>
 				<CardTitle>Настройки профиля</CardTitle>
-				{!isLoading && user ? (
-					<UserButton user={user} />
-				) : (
-					<UserButtonLoading />
-				)}
 			</CardHeader>
 			<CardContent>
 				<Form {...form}>
