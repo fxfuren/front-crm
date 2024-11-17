@@ -7,6 +7,7 @@ import {
 	DataTableColumnHeader,
 	DataTableRowActions
 } from '@/features/dashboard/components/data-table'
+import { IUser } from '@/features/user/types'
 
 import { Checkbox } from '@/shared/components/ui'
 
@@ -96,12 +97,8 @@ export const orderColumns: ColumnDef<IOrder>[] = [
 			<DataTableColumnHeader column={column} title='Техник' />
 		),
 		cell: ({ row }) => {
-			const technician = row.getValue('technician')
-			return technician ? (
-				<div>{technician.displayName}</div>
-			) : (
-				<div>Нет техника</div>
-			)
+			const technician = row.getValue('technician') as IUser
+			return <div>{technician.displayName}</div>
 		}
 	},
 	{
