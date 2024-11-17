@@ -1,13 +1,35 @@
+import { CheckCircle, Circle, CircleOff, Timer } from 'lucide-react'
+
 import type { IUser } from '@/features/user/types'
 
 /**
  * Перечисление для статусов заказов.
  */
 export enum OrderStatus {
-	InProgress = 'В процессе',
-	Completed = 'Завершен',
-	Pending = 'В очереди',
-	Canceled = 'Отмене'
+	Pending = 'PENDING',
+	InProgress = 'IN_PROGRESS',
+	Completed = 'COMPLETED',
+	Canceled = 'CANCELLED'
+}
+
+/**
+ * Массив локализации для статусов.
+ */
+export const statusLabels: { [key in OrderStatus]: string } = {
+	[OrderStatus.InProgress]: 'В процессе',
+	[OrderStatus.Completed]: 'Завершен',
+	[OrderStatus.Pending]: 'В очереди',
+	[OrderStatus.Canceled]: 'Отменен'
+}
+
+/**
+ * Массив иконок для статусом.
+ */
+export const statusIcons = {
+	[OrderStatus.InProgress]: Timer,
+	[OrderStatus.Completed]: CheckCircle,
+	[OrderStatus.Pending]: Circle,
+	[OrderStatus.Canceled]: CircleOff
 }
 
 /**
