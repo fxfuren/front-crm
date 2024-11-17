@@ -2,8 +2,9 @@
 
 import { Table } from '@tanstack/react-table'
 import { X } from 'lucide-react'
+import React from 'react'
 
-import { OrderStatus } from '@/features/orders/types'
+import { OrderStatus, statusIcons, statusLabels } from '@/features/orders/types'
 
 import { Button } from '@/shared/components/ui'
 
@@ -27,7 +28,12 @@ export function DataTableToolbar<TData>({
 						column={table.getColumn('status')}
 						title='Статус'
 						options={Object.values(OrderStatus).map(status => ({
-							label: status,
+							label: (
+								<div className='flex items-center space-x-2'>
+									{React.createElement(statusIcons[status])}
+									<span>{statusLabels[status]}</span>
+								</div>
+							),
 							value: status
 						}))}
 					/>

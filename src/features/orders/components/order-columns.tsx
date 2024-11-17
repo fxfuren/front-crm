@@ -2,7 +2,6 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
-import { CheckCircle, Circle, CircleOff, Timer } from 'lucide-react'
 
 import {
 	DataTableColumnHeader,
@@ -11,14 +10,7 @@ import {
 
 import { Checkbox } from '@/shared/components/ui'
 
-import { IOrder, OrderStatus } from '../types'
-
-export const statusIcons = {
-	[OrderStatus.InProgress]: Timer,
-	[OrderStatus.Completed]: CheckCircle,
-	[OrderStatus.Pending]: Circle,
-	[OrderStatus.Canceled]: CircleOff
-}
+import { IOrder, OrderStatus, statusIcons, statusLabels } from '../types'
 
 export const orderColumns: ColumnDef<IOrder>[] = [
 	{
@@ -46,13 +38,6 @@ export const orderColumns: ColumnDef<IOrder>[] = [
 		),
 		enableSorting: false,
 		enableHiding: false
-	},
-	{
-		accessorKey: 'id',
-		header: ({ column }) => (
-			<DataTableColumnHeader column={column} title='ID' />
-		),
-		cell: ({ row }) => <div className='w-[80px]'>{row.getValue('id')}</div>
 	},
 	{
 		accessorKey: 'customer',
@@ -126,12 +111,13 @@ export const orderColumns: ColumnDef<IOrder>[] = [
 		),
 		cell: ({ row }) => {
 			const status: OrderStatus = row.getValue('status')
+			const localizedStatus = statusLabels[status]
 			const Icon = statusIcons[status]
 
 			return (
 				<div className='flex items-center space-x-2'>
 					{Icon && <Icon className='h-4 w-4 text-muted-foreground' />}
-					<span>{status}</span>
+					<span>{localizedStatus}</span>
 				</div>
 			)
 		},
