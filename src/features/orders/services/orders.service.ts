@@ -12,8 +12,8 @@ class OrderService {
 	 * @returns {Promise<any[]>} - Массив заказов.
 	 */
 	public async getOrders() {
-		const response = await api.get<{ data: IOrder[] }>('orders')
-		return response.data
+		const response = await api.get<IOrder>('orders')
+		return response
 	}
 }
 
