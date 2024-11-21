@@ -1,10 +1,11 @@
 'use client'
 
 import { DataTable } from '@/features/dashboard/components/data-table/data-table'
-import { orderColumns } from '@/features/orders/components'
+import { OrderForm, orderColumns } from '@/features/orders/components'
 import { useGetOrders } from '@/features/orders/hooks'
 
 import { Skeleton } from '@/shared/components/ui'
+import { ResponsiveDialog } from '@/shared/components/ui/ResponsiveDialog'
 
 export function OrdersBlock() {
 	const { orders, isLoading } = useGetOrders()
@@ -18,6 +19,12 @@ export function OrdersBlock() {
 			) : (
 				<DataTable data={orders || []} columns={orderColumns} />
 			)}
+			<ResponsiveDialog
+				title='Добавить заказ'
+				description='Форма добавления заказа'
+			>
+				<OrderForm />
+			</ResponsiveDialog>
 		</div>
 	)
 }
