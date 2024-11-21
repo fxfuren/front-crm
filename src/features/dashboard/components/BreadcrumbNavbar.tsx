@@ -22,7 +22,8 @@ const pathTranslations: {
 	profile: 'Профиль',
 	invitation: 'Приглашение',
 	users: 'Пользователи',
-	dashboard: 'Панель управления'
+	dashboard: 'Панель управления',
+	warehouse: 'Склад'
 }
 
 export function BreadcrumbNavbar() {

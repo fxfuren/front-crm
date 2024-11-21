@@ -1,6 +1,5 @@
 'use client'
 
-import { Home, Inbox, Users } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -13,25 +12,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem
 } from '@/shared/components/ui'
-import { pageConfig } from '@/shared/config'
-
-const items = [
-	{
-		title: 'Профиль',
-		url: pageConfig.dashboard.settings.profile,
-		icon: Home
-	},
-	{
-		title: 'Приглашение',
-		url: pageConfig.dashboard.settings.invitation,
-		icon: Inbox
-	},
-	{
-		title: 'Пользователи',
-		url: pageConfig.dashboard.settings.users,
-		icon: Users
-	}
-]
+import { sidebarItems } from '@/shared/config'
 
 export function SettignsSidebar() {
 	const pathname = usePathname()
@@ -42,7 +23,7 @@ export function SettignsSidebar() {
 				<SidebarGroup>
 					<SidebarGroupContent>
 						<SidebarMenu>
-							{items.map(item => (
+							{sidebarItems.map(item => (
 								<SidebarMenuItem key={item.title}>
 									<SidebarMenuButton
 										asChild
