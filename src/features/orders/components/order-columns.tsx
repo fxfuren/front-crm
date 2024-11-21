@@ -11,6 +11,7 @@ import { IUser } from '@/features/user/types'
 
 import { Checkbox } from '@/shared/components/ui'
 
+import { useDeleteOrderMutation, useGetOrders } from '../hooks'
 import { IOrder, OrderStatus, statusIcons, statusLabels } from '../types'
 
 export const orderColumns: ColumnDef<IOrder>[] = [
@@ -39,6 +40,11 @@ export const orderColumns: ColumnDef<IOrder>[] = [
 		),
 		enableSorting: false,
 		enableHiding: false
+	},
+	{
+		accessorKey: 'id',
+		header: 'ID',
+		cell: ({ row }) => <div>{row.getValue('id')}</div>
 	},
 	{
 		accessorKey: 'customer',
@@ -160,6 +166,11 @@ export const orderColumns: ColumnDef<IOrder>[] = [
 	},
 	{
 		id: 'actions',
-		cell: ({ row }) => <DataTableRowActions />
+		cell: ({ row }) => {
+			const { refetch } = useGetOrders()
+			const { deleteOrder } = useDeleteOrderMutation(refetch)
+			const orderId = row.getValue('id')
+			return <DataTableRowActions id={orderId} onDelete={deleteOrder} />
+		}
 	}
 ]

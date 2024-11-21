@@ -40,7 +40,8 @@ export function DataTableViewOptions<TData>({
 					.filter(
 						column =>
 							typeof column.accessorFn !== 'undefined' &&
-							column.getCanHide()
+							column.getCanHide() &&
+							column.id !== 'id'
 					)
 					.map(column => {
 						return (

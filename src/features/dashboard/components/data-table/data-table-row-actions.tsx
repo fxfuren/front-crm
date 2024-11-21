@@ -12,7 +12,15 @@ import {
 	DropdownMenuTrigger
 } from '@/shared/components/ui'
 
-export function DataTableRowActions<TData>() {
+type DataTableRowActionsProps<TData> = {
+	id: string
+	onDelete: (id: string) => void
+}
+
+export function DataTableRowActions<TData>({
+	id,
+	onDelete
+}: DataTableRowActionsProps<TData>) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -28,7 +36,7 @@ export function DataTableRowActions<TData>() {
 				<DropdownMenuItem>Редактировать</DropdownMenuItem>
 
 				<DropdownMenuSeparator />
-				<DropdownMenuItem>
+				<DropdownMenuItem onClick={() => onDelete(id)}>
 					Удалить
 					<DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
 				</DropdownMenuItem>
