@@ -26,6 +26,16 @@ class OrderService {
 		const response = await api.post<IOrder>('orders/new', body)
 		return response
 	}
+
+	/**
+	 * Удаляет заказ по его ID.
+	 *
+	 * @param {string} orderId - ID заказа для удаления.
+	 * @returns {Promise<void>} - Пустой ответ, если удаление прошло успешно.
+	 */
+	public async deleteOrder(orderId: string) {
+		await api.delete(`orders/${orderId}`)
+	}
 }
 
 export const ordersService = new OrderService()
