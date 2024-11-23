@@ -9,7 +9,12 @@ import {
 } from '@/features/dashboard/components/data-table'
 import { IUser } from '@/features/user/types'
 
-import { Checkbox } from '@/shared/components/ui'
+import {
+	Checkbox,
+	Popover,
+	PopoverContent,
+	PopoverTrigger
+} from '@/shared/components/ui'
 
 import { useDeleteOrderMutation, useGetOrders } from '../hooks'
 import { IOrder, OrderStatus, statusIcons, statusLabels } from '../types'
@@ -90,7 +95,20 @@ export const orderColumns: ColumnDef<IOrder>[] = [
 				onSearch={value => column.setFilterValue(value)}
 			/>
 		),
-		cell: ({ row }) => <div>{row.getValue('issue')}</div>,
+		cell: ({ row }) => {
+			const issue = row.getValue<string>('issue')
+
+			return issue.length > 15 ? (
+				<Popover>
+					<PopoverTrigger className='max-w-[150px] cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap'>
+						{issue.substring(0, 10)}...
+					</PopoverTrigger>
+					<PopoverContent>{issue}</PopoverContent>
+				</Popover>
+			) : (
+				<div>{issue}</div>
+			)
+		},
 		filterFn: (row, id, value) => {
 			const searchValue = String(value).toLowerCase()
 			const cellValue = String(row.getValue(id)).toLowerCase()
