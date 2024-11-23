@@ -12,7 +12,8 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-	Input
+	Input,
+	Textarea
 } from '@/shared/components/ui'
 import { useProfile } from '@/shared/hooks'
 
@@ -93,7 +94,7 @@ export function OrderForm() {
 						<FormItem>
 							<FormLabel>Описание проблемы</FormLabel>
 							<FormControl>
-								<Input
+								<Textarea
 									placeholder='Опишите проблему'
 									{...field}
 								/>
