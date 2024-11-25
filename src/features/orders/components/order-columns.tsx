@@ -2,6 +2,7 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
+import { CalendarIcon } from 'lucide-react'
 
 import {
 	DataTableColumnHeader,
@@ -10,13 +11,19 @@ import {
 import { IUser } from '@/features/user/types'
 
 import {
+	Button,
 	Checkbox,
+	DatePicker,
 	Popover,
 	PopoverContent,
 	PopoverTrigger
 } from '@/shared/components/ui'
 
-import { useDeleteOrderMutation, useGetOrders } from '../hooks'
+import {
+	useDeleteOrderMutation,
+	useGetOrders,
+	useUpdateOrderMutation
+} from '../hooks'
 import { IOrder, OrderStatus, statusIcons, statusLabels } from '../types'
 
 export const orderColumns = (
@@ -173,14 +180,49 @@ export const orderColumns = (
 		),
 		cell: ({ row }) => {
 			const completedAt = row.getValue('completedAt')
-			return completedAt &&
-				(typeof completedAt === 'string' ||
-					typeof completedAt === 'number' ||
-					completedAt instanceof Date) &&
-				!isNaN(new Date(completedAt).getTime()) ? (
-				<div>{format(new Date(completedAt), 'dd/MM/yyyy')}</div>
-			) : (
-				<div>Не завершено</div>
+			const orderId = row.getValue('id')
+			const { refetch } = useGetOrders()
+
+			const { updateOrder, isPending } = useUpdateOrderMutation(() =>
+				refetch()
+			)
+			const handleDateChange = (newDate: Date) => {
+				if (newDate) {
+					updateOrder({
+						id: orderId,
+						completedAt: newDate
+					})
+				}
+			}
+
+			return (
+				<Popover>
+					<PopoverTrigger>
+						<Button>
+							<CalendarIcon className='w- h-4' />
+							{completedAt &&
+							(typeof completedAt === 'string' ||
+								typeof completedAt === 'number' ||
+								completedAt instanceof Date) &&
+							!isNaN(new Date(completedAt).getTime()) ? (
+								<div>
+									{format(
+										new Date(completedAt),
+										'dd/MM/yyyy'
+									)}
+								</div>
+							) : (
+								<div>Не завершено</div>
+							)}
+						</Button>
+					</PopoverTrigger>
+					<PopoverContent>
+						<DatePicker
+							currentDate={completedAt}
+							onDateChange={handleDateChange}
+						/>
+					</PopoverContent>
+				</Popover>
 			)
 		}
 	},
