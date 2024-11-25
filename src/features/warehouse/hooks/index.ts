@@ -1,4 +1,4 @@
-export * from './useAddItemFromWarehouseMutation'
+export * from './useAddItemOnWarehouseMutation'
 export * from './useDeleteItemMutation'
 export * from './useGetFirstWarehouse'
 export * from './useGetItemsOnWarehouse'
