@@ -10,6 +10,10 @@ import {
 
 import { Checkbox } from '@/shared/components/ui'
 
+import {
+	useDeleteItemFromWarehouseMutation,
+	useGetItemsOnWarehouse
+} from '../hooks'
 import { IItem } from '../types'
 
 export const itemColumns: ColumnDef<IItem>[] = [
@@ -38,6 +42,11 @@ export const itemColumns: ColumnDef<IItem>[] = [
 		),
 		enableSorting: false,
 		enableHiding: false
+	},
+	{
+		accessorKey: 'id',
+		header: 'ID',
+		cell: ({ row }) => <div>{row.getValue('id')}</div>
 	},
 	{
 		accessorKey: 'name',
@@ -93,6 +102,11 @@ export const itemColumns: ColumnDef<IItem>[] = [
 	},
 	{
 		id: 'actions',
-		cell: ({ row }) => <DataTableRowActions />
+		cell: ({ row }) => {
+			const { refetch } = useGetItemsOnWarehouse()
+			const { deleteItem } = useDeleteItemFromWarehouseMutation(refetch)
+			const itemId = row.getValue('id')
+			return <DataTableRowActions id={itemId} onDelete={deleteItem} />
+		}
 	}
 ]
