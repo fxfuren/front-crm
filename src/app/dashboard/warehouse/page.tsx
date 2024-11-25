@@ -1,5 +1,5 @@
 import { WarehouseBlock } from '@/features/warehouse/components'
 
-export default function HomePage() {
+export default function WarehousePage() {
 	return <WarehouseBlock />
 }

@@ -36,6 +36,18 @@ class ItemWarehoseService {
 	public async deleteItem(itemId: string) {
 		await api.delete(`items/${itemId}`)
 	}
+
+	/**
+	 * Обновляет элемент склада по его ID.
+	 *
+	 * @param {string} itemId - ID элемента для обновления.
+	 * @param {Partial<IItem>} body - Данные для обновления.
+	 * @returns {Promise<IItem>} - Обновленный элемент.
+	 */
+	public async updateItem(itemId: string, body: Partial<IItem>) {
+		const response = await api.patch<IItem>(`items/${itemId}`, body)
+		return response
+	}
 }
 
 export const itemWarehoseService = new ItemWarehoseService()

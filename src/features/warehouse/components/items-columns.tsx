@@ -16,7 +16,9 @@ import {
 } from '../hooks'
 import { IItem } from '../types'
 
-export const itemColumns: ColumnDef<IItem>[] = [
+export const itemColumns = (
+	handleEdit: (item: IItem) => void
+): ColumnDef<IItem>[] => [
 	{
 		id: 'select',
 		header: ({ table }) => (
@@ -106,7 +108,13 @@ export const itemColumns: ColumnDef<IItem>[] = [
 			const { refetch } = useGetItemsOnWarehouse()
 			const { deleteItem } = useDeleteItemFromWarehouseMutation(refetch)
 			const itemId = row.getValue('id')
-			return <DataTableRowActions id={itemId} onDelete={deleteItem} />
+			return (
+				<DataTableRowActions
+					id={itemId}
+					onDelete={deleteItem}
+					onEdit={() => handleEdit(row.original)}
+				/>
+			)
 		}
 	}
 ]

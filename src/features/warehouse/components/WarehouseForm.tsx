@@ -15,34 +15,49 @@ import {
 	Input
 } from '@/shared/components/ui'
 
-import { useGetItemsOnWarehouse } from '../hooks'
-import { useAddItemOnWarehouseMutation } from '../hooks/useAddItemFromWarehouseMutation'
+import {
+	useAddItemOnWarehouseMutation,
+	useGetItemsOnWarehouse,
+	useUpdateItemMutation
+} from '../hooks'
 import { formSchema } from '../schemes'
+import { IItem } from '../types'
 
 type WarehouseFormValues = z.infer<typeof formSchema>
 
-export function WarehouseForm() {
+interface WarehouseFormProps {
+	defaultValues?: Partial<IItem>
+	onSubmit: (values: WarehouseFormValues) => void
+}
+
+export function WarehouseForm({ defaultValues, onSubmit }: WarehouseFormProps) {
 	const { refetch } = useGetItemsOnWarehouse()
 
-	const { addItem, isPending } = useAddItemOnWarehouseMutation(refetch)
+	const { addItem, isPending: isAdding } =
+		useAddItemOnWarehouseMutation(refetch)
+	const { updateItem, isPending: isUpdating } = useUpdateItemMutation(refetch)
 
 	const form = useForm<WarehouseFormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			name: '',
-			quantity: 0
+			name: defaultValues?.name || '',
+			quantity: defaultValues?.quantity || 0
 		}
 	})
 
-	const onSubmit = (values: WarehouseFormValues) => {
-		addItem({
-			...values
-		})
+	const handleSubmit = (values: WarehouseFormValues) => {
+		if (defaultValues?.id) {
+			updateItem({ ...values, id: defaultValues.id })
+		} else {
+			addItem(values)
+		}
+		onSubmit(values)
 	}
+
 	return (
 		<Form {...form}>
 			<form
-				onSubmit={form.handleSubmit(onSubmit)}
+				onSubmit={form.handleSubmit(handleSubmit)}
 				className='space-y-8 p-4 md:p-0'
 			>
 				<FormField
@@ -70,7 +85,7 @@ export function WarehouseForm() {
 							<FormControl>
 								<Input
 									{...field}
-									disabled={isPending}
+									disabled={isAdding || isUpdating}
 									placeholder='Количество товара'
 									type='text'
 									onChange={e => {
@@ -84,8 +99,8 @@ export function WarehouseForm() {
 						</FormItem>
 					)}
 				/>
-				<Button type='submit' disabled={isPending}>
-					Сохранить
+				<Button type='submit' disabled={isAdding || isUpdating}>
+					{defaultValues ? 'Сохранить изменения' : 'Добавить элемент'}
 				</Button>
 			</form>
 		</Form>
