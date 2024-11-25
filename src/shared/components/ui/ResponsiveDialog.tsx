@@ -12,10 +12,8 @@ import {
 } from './Dialog'
 import {
 	Drawer,
-	DrawerClose,
 	DrawerContent,
 	DrawerDescription,
-	DrawerFooter,
 	DrawerHeader,
 	DrawerTitle
 } from './Drawer'
@@ -71,13 +69,6 @@ export function ResponsiveDialog({
 							<DrawerDescription>{description}</DrawerDescription>
 						</DrawerHeader>
 						{children}
-						<DrawerFooter className='pt-2'>
-							<DrawerClose asChild>
-								<Button variant='outline' onClick={onClose}>
-									Cancel
-								</Button>
-							</DrawerClose>
-						</DrawerFooter>
 					</DrawerContent>
 				</Drawer>
 			)}
