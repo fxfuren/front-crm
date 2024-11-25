@@ -17,32 +17,56 @@ import {
 } from '@/shared/components/ui'
 import { useProfile } from '@/shared/hooks'
 
-import { useAddOrderMutation, useGetOrders } from '../hooks'
+import {
+	useAddOrderMutation,
+	useGetOrders,
+	useUpdateOrderMutation
+} from '../hooks'
 import { formSchema } from '../schemes'
 
 type OrderFormValues = z.infer<typeof formSchema>
 
-export function OrderForm() {
+export function OrderForm({
+	defaultValues,
+	onSubmit
+}: {
+	defaultValues?: OrderFormValues
+	onSubmit?: () => void
+}) {
 	const { user, isLoading: isLoadingProfile } = useProfile()
 	const { refetch } = useGetOrders()
 	const technicianId = user?.id as string
 
-	const { addOrder, isPending } = useAddOrderMutation(technicianId, refetch)
+	const { addOrder, isPending: isPendingAdd } = useAddOrderMutation(
+		technicianId,
+		refetch
+	)
+	const { updateOrder, isPending: isPendingUpdate } =
+		useUpdateOrderMutation(refetch)
 
 	const form = useForm<OrderFormValues>({
 		resolver: zodResolver(formSchema),
-		defaultValues: {
+		defaultValues: defaultValues || {
 			customer: '',
 			device: '',
 			issue: ''
 		}
 	})
 
-	const onSubmit = (values: OrderFormValues) => {
-		addOrder({
-			...values,
-			technicianId
-		})
+	const handleSubmit = (values: OrderFormValues) => {
+		if (defaultValues) {
+			updateOrder({
+				id: defaultValues.id,
+				...values
+			})
+		} else {
+			addOrder({
+				...values,
+				technicianId
+			})
+		}
+
+		onSubmit?.()
 	}
 
 	if (isLoadingProfile) {
@@ -52,7 +76,7 @@ export function OrderForm() {
 	return (
 		<Form {...form}>
 			<form
-				onSubmit={form.handleSubmit(onSubmit)}
+				onSubmit={form.handleSubmit(handleSubmit)}
 				className='space-y-8 p-4 md:p-0'
 			>
 				<FormField
@@ -103,8 +127,11 @@ export function OrderForm() {
 						</FormItem>
 					)}
 				/>
-				<Button type='submit' disabled={isPending}>
-					Сохранить
+				<Button
+					type='submit'
+					disabled={isPendingAdd || isPendingUpdate}
+				>
+					{defaultValues ? 'Сохранить изменения' : 'Добавить'}
 				</Button>
 			</form>
 		</Form>

@@ -36,6 +36,18 @@ class OrderService {
 	public async deleteOrder(orderId: string) {
 		await api.delete(`orders/${orderId}`)
 	}
+
+	/**
+	 * Обновляет заказ по его ID.
+	 *
+	 * @param {string} orderId - ID заказа для обновления.
+	 * @param {Partial<IOrder>} body - Данные для обновления.
+	 * @returns {Promise<IOrder>} - Обновленный заказ.
+	 */
+	public async updateOrder(orderId: string, body: Partial<IOrder>) {
+		const response = await api.patch<IOrder>(`orders/${orderId}`, body)
+		return response
+	}
 }
 
 export const ordersService = new OrderService()

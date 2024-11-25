@@ -14,11 +14,13 @@ import {
 
 type DataTableRowActionsProps<TData> = {
 	id: string
+	onEdit: () => void
 	onDelete: (id: string) => void
 }
 
 export function DataTableRowActions<TData>({
 	id,
+	onEdit,
 	onDelete
 }: DataTableRowActionsProps<TData>) {
 	return (
@@ -33,10 +35,21 @@ export function DataTableRowActions<TData>({
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end' className='w-[160px]'>
-				<DropdownMenuItem>Редактировать</DropdownMenuItem>
-
+				<DropdownMenuItem
+					onClick={e => {
+						e.stopPropagation()
+						onEdit()
+					}}
+				>
+					Редактировать
+				</DropdownMenuItem>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem onClick={() => onDelete(id)}>
+				<DropdownMenuItem
+					onClick={e => {
+						e.stopPropagation()
+						onDelete(id)
+					}}
+				>
 					Удалить
 					<DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
 				</DropdownMenuItem>

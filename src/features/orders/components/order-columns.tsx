@@ -19,7 +19,9 @@ import {
 import { useDeleteOrderMutation, useGetOrders } from '../hooks'
 import { IOrder, OrderStatus, statusIcons, statusLabels } from '../types'
 
-export const orderColumns: ColumnDef<IOrder>[] = [
+export const orderColumns = (
+	onEdit: (order: IOrder) => void
+): ColumnDef<IOrder>[] => [
 	{
 		id: 'select',
 		header: ({ table }) => (
@@ -185,10 +187,17 @@ export const orderColumns: ColumnDef<IOrder>[] = [
 	{
 		id: 'actions',
 		cell: ({ row }) => {
+			const order = row.original
 			const { refetch } = useGetOrders()
 			const { deleteOrder } = useDeleteOrderMutation(refetch)
-			const orderId = row.getValue('id')
-			return <DataTableRowActions id={orderId} onDelete={deleteOrder} />
+
+			return (
+				<DataTableRowActions
+					id={order.id}
+					onEdit={() => onEdit(order)}
+					onDelete={() => deleteOrder(order.id)}
+				/>
+			)
 		}
 	}
 ]
