@@ -2,6 +2,7 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
+import { CalendarIcon } from 'lucide-react'
 
 import {
 	DataTableColumnHeader,
@@ -9,11 +10,31 @@ import {
 } from '@/features/dashboard/components/data-table'
 import { IUser } from '@/features/user/types'
 
-import { Checkbox } from '@/shared/components/ui'
+import {
+	Button,
+	Checkbox,
+	DatePicker,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+	Popover,
+	PopoverContent,
+	PopoverTrigger
+} from '@/shared/components/ui'
 
+import {
+	useDeleteOrderMutation,
+	useGetOrders,
+	useUpdateOrderMutation
+} from '../hooks'
 import { IOrder, OrderStatus, statusIcons, statusLabels } from '../types'
 
-export const orderColumns: ColumnDef<IOrder>[] = [
+export const orderColumns = (
+	onEdit: (order: IOrder) => void
+): ColumnDef<IOrder>[] => [
 	{
 		id: 'select',
 		header: ({ table }) => (
@@ -39,6 +60,11 @@ export const orderColumns: ColumnDef<IOrder>[] = [
 		),
 		enableSorting: false,
 		enableHiding: false
+	},
+	{
+		accessorKey: 'id',
+		header: 'ID',
+		cell: ({ row }) => <div>{row.getValue('id')}</div>
 	},
 	{
 		accessorKey: 'customer',
@@ -84,7 +110,20 @@ export const orderColumns: ColumnDef<IOrder>[] = [
 				onSearch={value => column.setFilterValue(value)}
 			/>
 		),
-		cell: ({ row }) => <div>{row.getValue('issue')}</div>,
+		cell: ({ row }) => {
+			const issue = row.getValue<string>('issue')
+
+			return issue.length > 15 ? (
+				<Popover>
+					<PopoverTrigger className='max-w-[150px] cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap'>
+						{issue.substring(0, 10)}...
+					</PopoverTrigger>
+					<PopoverContent>{issue}</PopoverContent>
+				</Popover>
+			) : (
+				<div>{issue}</div>
+			)
+		},
 		filterFn: (row, id, value) => {
 			const searchValue = String(value).toLowerCase()
 			const cellValue = String(row.getValue(id)).toLowerCase()
@@ -110,16 +149,60 @@ export const orderColumns: ColumnDef<IOrder>[] = [
 			const status: OrderStatus = row.getValue('status')
 			const localizedStatus = statusLabels[status]
 			const Icon = statusIcons[status]
+			const orderId = row.getValue('id')
+			const { refetch } = useGetOrders()
+			const { updateOrder } = useUpdateOrderMutation(() => refetch())
+
+			const handleStatusChange = (newStatus: OrderStatus) => {
+				updateOrder({
+					id: orderId,
+					status: newStatus
+				})
+			}
 
 			return (
 				<div className='flex items-center space-x-2'>
-					{Icon && <Icon className='h-4 w-4 text-muted-foreground' />}
-					<span>{localizedStatus}</span>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant='outline' size='sm'>
+								{Icon && (
+									<Icon className='h-4 w-4 text-muted-foreground' />
+								)}
+								<span>{localizedStatus}</span>
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align='end' className='w-[150px]'>
+							<DropdownMenuLabel>
+								Выберите новый статус
+							</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+							{Object.keys(OrderStatus).map(statusKey => {
+								const statusOption =
+									OrderStatus[
+										statusKey as keyof typeof OrderStatus
+									]
+								const StatusIcon = statusIcons[statusOption]
+								return (
+									<DropdownMenuItem
+										key={statusOption}
+										onClick={() =>
+											handleStatusChange(statusOption)
+										}
+										className='flex items-center space-x-2'
+									>
+										{StatusIcon && (
+											<StatusIcon className='h-4 w-4 text-muted-foreground' />
+										)}
+										<span>
+											{statusLabels[statusOption]}
+										</span>
+									</DropdownMenuItem>
+								)
+							})}
+						</DropdownMenuContent>
+					</DropdownMenu>
 				</div>
 			)
-		},
-		filterFn: (row, id, value) => {
-			return value.includes(row.getValue(id))
 		}
 	},
 	{
@@ -147,19 +230,66 @@ export const orderColumns: ColumnDef<IOrder>[] = [
 		),
 		cell: ({ row }) => {
 			const completedAt = row.getValue('completedAt')
-			return completedAt &&
-				(typeof completedAt === 'string' ||
-					typeof completedAt === 'number' ||
-					completedAt instanceof Date) &&
-				!isNaN(new Date(completedAt).getTime()) ? (
-				<div>{format(new Date(completedAt), 'dd/MM/yyyy')}</div>
-			) : (
-				<div>Не завершено</div>
+			const orderId = row.getValue('id')
+			const { refetch } = useGetOrders()
+
+			const { updateOrder, isPending } = useUpdateOrderMutation(() =>
+				refetch()
+			)
+			const handleDateChange = (newDate: Date) => {
+				if (newDate) {
+					updateOrder({
+						id: orderId,
+						completedAt: newDate
+					})
+				}
+			}
+
+			return (
+				<Popover>
+					<PopoverTrigger asChild>
+						<Button variant='outline'>
+							<CalendarIcon className='w- h-4' />
+							{completedAt &&
+							(typeof completedAt === 'string' ||
+								typeof completedAt === 'number' ||
+								completedAt instanceof Date) &&
+							!isNaN(new Date(completedAt).getTime()) ? (
+								<div>
+									{format(
+										new Date(completedAt),
+										'dd/MM/yyyy'
+									)}
+								</div>
+							) : (
+								<div>Не завершено</div>
+							)}
+						</Button>
+					</PopoverTrigger>
+					<PopoverContent>
+						<DatePicker
+							currentDate={completedAt}
+							onDateChange={handleDateChange}
+						/>
+					</PopoverContent>
+				</Popover>
 			)
 		}
 	},
 	{
 		id: 'actions',
-		cell: ({ row }) => <DataTableRowActions />
+		cell: ({ row }) => {
+			const order = row.original
+			const { refetch } = useGetOrders()
+			const { deleteOrder } = useDeleteOrderMutation(refetch)
+
+			return (
+				<DataTableRowActions
+					id={order.id}
+					onEdit={() => onEdit(order)}
+					onDelete={() => deleteOrder(order.id)}
+				/>
+			)
+		}
 	}
 ]

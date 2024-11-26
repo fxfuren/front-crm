@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
 import { useProfile } from '@/shared/hooks'
@@ -12,6 +12,8 @@ import { userService } from '../services'
  */
 export function useUpdateProfileMutation() {
 	const { refetch } = useProfile()
+	const queryClient = useQueryClient()
+
 	const { mutate: update, isPending: isLoadingUpdate } = useMutation({
 		mutationKey: ['update profile'],
 		mutationFn: ({ values }: { values: TypeSettingsSchema }) =>
@@ -19,6 +21,7 @@ export function useUpdateProfileMutation() {
 		onSuccess() {
 			toast.success('Профиль успешно обновлён')
 			refetch()
+			queryClient.removeQueries({ queryKey: ['orders'] })
 		},
 		onError(error) {
 			toastMessageHandler(error)

@@ -1,5 +1,6 @@
 export * from './InviteTokenItem'
 export * from './InviteTokensList'
+export * from './MobileSettingsBar'
 export * from './NavUser'
 export * from './SettingsForm'
 export * from './SettingsSidebar'
