@@ -12,6 +12,7 @@ export const InviteTokenItem: React.FC<{
 	const [timeLeft, setTimeLeft] = useState<number>(
 		Math.floor((expiresIn.getTime() - Date.now()) / 1000)
 	)
+	const [isBlurred, setIsBlurred] = useState(true)
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -35,15 +36,19 @@ export const InviteTokenItem: React.FC<{
 		navigator.clipboard.writeText(link)
 
 		toast.success('Ссылка скопирована в буфер обмена!')
+		setIsBlurred(false)
 	}
 
 	const hours = Math.floor(timeLeft / 3600)
 	const minutes = Math.floor((timeLeft % 3600) / 60)
+
 	return (
 		<>
 			<div onClick={copyToClipboard} className='cursor-pointer'>
 				<Alert>
-					<AlertTitle>{`${baseUrl}/auth/register?inviteToken=...`}</AlertTitle>
+					<AlertTitle className={isBlurred ? 'blur-sm' : ''}>
+						{`${baseUrl}/auth/register?inviteToken=...`}
+					</AlertTitle>
 				</Alert>
 			</div>
 			<AlertDescription className='ml-3'>
