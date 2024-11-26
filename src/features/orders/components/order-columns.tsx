@@ -14,6 +14,12 @@ import {
 	Button,
 	Checkbox,
 	DatePicker,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
 	Popover,
 	PopoverContent,
 	PopoverTrigger
@@ -143,16 +149,60 @@ export const orderColumns = (
 			const status: OrderStatus = row.getValue('status')
 			const localizedStatus = statusLabels[status]
 			const Icon = statusIcons[status]
+			const orderId = row.getValue('id')
+			const { refetch } = useGetOrders()
+			const { updateOrder } = useUpdateOrderMutation(() => refetch())
+
+			const handleStatusChange = (newStatus: OrderStatus) => {
+				updateOrder({
+					id: orderId,
+					status: newStatus
+				})
+			}
 
 			return (
 				<div className='flex items-center space-x-2'>
-					{Icon && <Icon className='h-4 w-4 text-muted-foreground' />}
-					<span>{localizedStatus}</span>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant='outline' size='sm'>
+								{Icon && (
+									<Icon className='h-4 w-4 text-muted-foreground' />
+								)}
+								<span>{localizedStatus}</span>
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align='end' className='w-[150px]'>
+							<DropdownMenuLabel>
+								Выберите новый статус
+							</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+							{Object.keys(OrderStatus).map(statusKey => {
+								const statusOption =
+									OrderStatus[
+										statusKey as keyof typeof OrderStatus
+									]
+								const StatusIcon = statusIcons[statusOption]
+								return (
+									<DropdownMenuItem
+										key={statusOption}
+										onClick={() =>
+											handleStatusChange(statusOption)
+										}
+										className='flex items-center space-x-2'
+									>
+										{StatusIcon && (
+											<StatusIcon className='h-4 w-4 text-muted-foreground' />
+										)}
+										<span>
+											{statusLabels[statusOption]}
+										</span>
+									</DropdownMenuItem>
+								)
+							})}
+						</DropdownMenuContent>
+					</DropdownMenu>
 				</div>
 			)
-		},
-		filterFn: (row, id, value) => {
-			return value.includes(row.getValue(id))
 		}
 	},
 	{
@@ -197,8 +247,8 @@ export const orderColumns = (
 
 			return (
 				<Popover>
-					<PopoverTrigger>
-						<Button>
+					<PopoverTrigger asChild>
+						<Button variant='outline'>
 							<CalendarIcon className='w- h-4' />
 							{completedAt &&
 							(typeof completedAt === 'string' ||
