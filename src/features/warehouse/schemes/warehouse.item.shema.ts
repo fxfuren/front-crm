@@ -6,5 +6,10 @@ export const formSchema = z.object({
 	}),
 	quantity: z.number().min(1, {
 		message: 'Количество должно быть не менее 1.'
-	})
+	}),
+	price: z
+		.string()
+		.refine(value => !isNaN(parseFloat(value)) && parseFloat(value) > 0, {
+			message: 'Цена должна быть числом больше нуля.'
+		})
 })
