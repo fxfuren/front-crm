@@ -41,17 +41,27 @@ export function WarehouseForm({ defaultValues, onSubmit }: WarehouseFormProps) {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			name: defaultValues?.name || '',
-			quantity: defaultValues?.quantity || 0
+			quantity: defaultValues?.quantity || 0,
+			price: defaultValues?.price?.toString() || '0.0'
 		}
 	})
 
 	const handleSubmit = (values: WarehouseFormValues) => {
-		if (defaultValues?.id) {
-			updateItem({ ...values, id: defaultValues.id })
-		} else {
-			addItem(values)
+		const formattedValues = {
+			...values,
+			price: parseFloat(values.price).toFixed(1)
 		}
-		onSubmit(values)
+
+		if (isNaN(formattedValues.price)) {
+			formattedValues.price = 0.0
+		}
+
+		if (defaultValues?.id) {
+			updateItem({ ...formattedValues, id: defaultValues.id })
+		} else {
+			addItem(formattedValues)
+		}
+		onSubmit(formattedValues)
 	}
 
 	return (
@@ -92,6 +102,46 @@ export function WarehouseForm({ defaultValues, onSubmit }: WarehouseFormProps) {
 										let value = e.target.value
 										value = value.replace(/[^\d]/g, '')
 										field.onChange(Number(value))
+									}}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name='price'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Цена</FormLabel>
+							<FormControl>
+								<Input
+									{...field}
+									disabled={isAdding || isUpdating}
+									placeholder='Цена товара'
+									type='text'
+									onChange={e => {
+										let value = e.target.value
+										const cursorPosition =
+											e.target.selectionStart
+										value = value.replace(/[^\d.]/g, '')
+										const parts = value.split('.')
+										if (parts.length > 2) {
+											value = `${parts[0]}.${parts.slice(1).join('')}`
+										}
+										if (!/\./.test(value)) {
+											if (/^\d+$/.test(value)) {
+												value += '.0'
+											}
+										}
+
+										field.onChange(value)
+										requestAnimationFrame(() => {
+											e.target.selectionStart =
+												e.target.selectionEnd =
+													cursorPosition
+										})
 									}}
 								/>
 							</FormControl>

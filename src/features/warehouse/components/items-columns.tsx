@@ -85,6 +85,23 @@ export const itemColumns = (
 		}
 	},
 	{
+		accessorKey: 'price',
+		header: ({ column }) => (
+			<DataTableColumnHeader
+				column={column}
+				title='Цена'
+				searchable
+				onSearch={value => column.setFilterValue(value)}
+			/>
+		),
+		cell: ({ row }) => <div>{row.getValue('price')}</div>,
+		filterFn: (row, id, value) => {
+			const searchValue = String(value).toLowerCase()
+			const cellValue = String(row.getValue(id)).toLowerCase()
+			return cellValue.includes(searchValue)
+		}
+	},
+	{
 		accessorKey: 'createdAt',
 		header: ({ column }) => (
 			<DataTableColumnHeader column={column} title='Дата добавления' />
