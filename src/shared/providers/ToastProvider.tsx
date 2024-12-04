@@ -8,5 +8,5 @@ import { Toaster } from '../components/ui'
  * @returns {JSX.Element} - Компонент Toaster для уведомлений.
  */
 export function ToastProvider() {
-	return <Toaster position='bottom-right' duration={6000} />
+	return <Toaster position='bottom-right' duration={6000} closeButton />
 }
