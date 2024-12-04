@@ -12,7 +12,8 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-	Input
+	Input,
+	Textarea
 } from '@/shared/components/ui'
 
 import {
@@ -99,6 +100,22 @@ export function WarehouseForm({ defaultValues, onSubmit }: WarehouseFormProps) {
 										value = value.replace(/[^\d]/g, '')
 										field.onChange(Number(value))
 									}}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name='description'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Описание товара</FormLabel>
+							<FormControl>
+								<Textarea
+									placeholder='Опишите товар'
+									{...field}
 								/>
 							</FormControl>
 							<FormMessage />

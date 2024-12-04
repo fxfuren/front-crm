@@ -8,7 +8,12 @@ import {
 	DataTableRowActions
 } from '@/features/dashboard/components/data-table'
 
-import { Checkbox } from '@/shared/components/ui'
+import {
+	Checkbox,
+	Popover,
+	PopoverContent,
+	PopoverTrigger
+} from '@/shared/components/ui'
 
 import {
 	useDeleteItemFromWarehouseMutation,
@@ -78,6 +83,38 @@ export const itemColumns = (
 			/>
 		),
 		cell: ({ row }) => <div>{row.getValue('quantity')}</div>,
+		filterFn: (row, id, value) => {
+			const searchValue = String(value).toLowerCase()
+			const cellValue = String(row.getValue(id)).toLowerCase()
+			return cellValue.includes(searchValue)
+		}
+	},
+	{
+		accessorKey: 'description',
+		header: ({ column }) => (
+			<DataTableColumnHeader
+				column={column}
+				title='Описание товра'
+				searchable
+				onSearch={value => column.setFilterValue(value)}
+			/>
+		),
+		cell: ({ row }) => {
+			const description = row.getValue<string>('description')
+
+			return !description ? (
+				<div>Нет описания</div>
+			) : description.length > 15 ? (
+				<Popover>
+					<PopoverTrigger className='max-w-[150px] cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap'>
+						{description.substring(0, 10)}...
+					</PopoverTrigger>
+					<PopoverContent>{description}</PopoverContent>
+				</Popover>
+			) : (
+				<div>{description}</div>
+			)
+		},
 		filterFn: (row, id, value) => {
 			const searchValue = String(value).toLowerCase()
 			const cellValue = String(row.getValue(id)).toLowerCase()
