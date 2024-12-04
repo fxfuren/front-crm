@@ -42,18 +42,14 @@ export function WarehouseForm({ defaultValues, onSubmit }: WarehouseFormProps) {
 		defaultValues: {
 			name: defaultValues?.name || '',
 			quantity: defaultValues?.quantity || 0,
-			price: defaultValues?.price?.toString() || '0.0'
+			price: defaultValues?.price
 		}
 	})
 
 	const handleSubmit = (values: WarehouseFormValues) => {
 		const formattedValues = {
 			...values,
-			price: parseFloat(values.price).toFixed(1)
-		}
-
-		if (isNaN(formattedValues.price)) {
-			formattedValues.price = 0.0
+			price: parseFloat(Number(values.price).toFixed(2)).toString()
 		}
 
 		if (defaultValues?.id) {
@@ -127,15 +123,15 @@ export function WarehouseForm({ defaultValues, onSubmit }: WarehouseFormProps) {
 											e.target.selectionStart
 										value = value.replace(/[^\d.]/g, '')
 										const parts = value.split('.')
-										if (parts.length > 2) {
-											value = `${parts[0]}.${parts.slice(1).join('')}`
+										if (parts.length > 1) {
+											value = `${parts[0]}.${parts[1].slice(0, 1)}`
 										}
-										if (!/\./.test(value)) {
-											if (/^\d+$/.test(value)) {
-												value += '.0'
-											}
+										if (value.endsWith('.')) {
+											value += '0'
 										}
-
+										if (/^\d+$/.test(value)) {
+											value += '.0'
+										}
 										field.onChange(value)
 										requestAnimationFrame(() => {
 											e.target.selectionStart =
@@ -143,6 +139,7 @@ export function WarehouseForm({ defaultValues, onSubmit }: WarehouseFormProps) {
 													cursorPosition
 										})
 									}}
+									value={field.value}
 								/>
 							</FormControl>
 							<FormMessage />
