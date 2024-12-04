@@ -18,22 +18,26 @@ export function UsersBlock() {
 
 	if (!users || !user) return null
 
+	const otherUsers = users.filter(
+		(userItem: IUser) => userItem.id !== user.id
+	)
+
 	return (
 		<div className='space-y-5 text-center'>
 			<Card className='mt-4 w-full border-none'>
 				<CardContent className='max-h-[500px] overflow-y-auto'>
 					<div className='space-y-4'>
-						{users
-							.filter(
-								(userItem: IUser) => userItem.id !== user.id
-							)
-							.map((userItem: IUser, index: number) => (
+						{otherUsers.length === 0 ? (
+							<p className='text-gray-500'>
+								Нет других пользователей
+							</p>
+						) : (
+							otherUsers.map((userItem: IUser, index: number) => (
 								<div
 									key={index}
 									className='flex items-center justify-between space-x-4'
 								>
 									<div className='flex items-center space-x-4'>
-										{' '}
 										<Avatar className='h-9 w-9 sm:flex'>
 											<AvatarFallback>
 												{userItem.displayName.slice(
@@ -54,9 +58,10 @@ export function UsersBlock() {
 											</p>
 										</div>
 									</div>
-									<UserRoleButton user={userItem} />{' '}
+									<UserRoleButton user={userItem} />
 								</div>
-							))}
+							))
+						)}
 					</div>
 				</CardContent>
 			</Card>
