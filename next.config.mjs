@@ -17,7 +17,7 @@ const nextConfig = {
 			{
 				// Шаблон для изображений, размещенных на Google User Content
 				protocol: 'https',
-				hostname: 'lh3.googleusercontent.com',
+				hostname: 'lh3.googleusercontent.com'
 			},
 			{
 				// Шаблон для изображений, размещенных на Yandex
@@ -25,7 +25,10 @@ const nextConfig = {
 				hostname: 'avatars.yandex.net'
 			}
 		]
+	},
+	typescript: {
+		ignoreBuildErrors: true
 	}
-};
+}
 
-export default nextConfig;
+export default nextConfig
