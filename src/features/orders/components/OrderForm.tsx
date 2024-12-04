@@ -49,7 +49,8 @@ export function OrderForm({
 		defaultValues: defaultValues || {
 			customer: '',
 			device: '',
-			issue: ''
+			issue: '',
+			price: ''
 		}
 	})
 
@@ -121,6 +122,46 @@ export function OrderForm({
 								<Textarea
 									placeholder='Опишите проблему'
 									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name='price'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Цена</FormLabel>
+							<FormControl>
+								<Input
+									{...field}
+									placeholder='Цена товара'
+									type='text'
+									onChange={e => {
+										let value = e.target.value
+										const cursorPosition =
+											e.target.selectionStart
+										value = value.replace(/[^\d.]/g, '')
+										const parts = value.split('.')
+										if (parts.length > 1) {
+											value = `${parts[0]}.${parts[1].slice(0, 1)}`
+										}
+										if (value.endsWith('.')) {
+											value += '0'
+										}
+										if (/^\d+$/.test(value)) {
+											value += '.0'
+										}
+										field.onChange(value)
+										requestAnimationFrame(() => {
+											e.target.selectionStart =
+												e.target.selectionEnd =
+													cursorPosition
+										})
+									}}
+									value={field.value}
 								/>
 							</FormControl>
 							<FormMessage />

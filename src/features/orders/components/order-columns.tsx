@@ -277,6 +277,27 @@ export const orderColumns = (
 		}
 	},
 	{
+		accessorKey: 'price',
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title='Цена' />
+		),
+		cell: ({ row }) => {
+			const status: OrderStatus = row.getValue('status')
+			if (
+				status === OrderStatus.Completed ||
+				status === OrderStatus.Canceled
+			) {
+				return <div>{row.getValue('price')}</div>
+			}
+			return <div>Заказ не выполнен</div>
+		},
+		filterFn: (row, id, value) => {
+			const searchValue = String(value).toLowerCase()
+			const cellValue = String(row.getValue(id)).toLowerCase()
+			return cellValue.includes(searchValue)
+		}
+	},
+	{
 		id: 'actions',
 		cell: ({ row }) => {
 			const order = row.original

@@ -1,3 +1,5 @@
+import { cookies } from 'next/headers'
+
 import {
 	BreadcrumbNavbar,
 	DasboardSidebar
@@ -10,13 +12,16 @@ import {
 	SidebarTrigger
 } from '@/shared/components/ui'
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
 	children
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+	const cookieStore = await cookies()
+	const defaultOpen = cookieStore.get('sidebar:state')?.value === 'true'
+
 	return (
-		<SidebarProvider>
+		<SidebarProvider defaultOpen={defaultOpen}>
 			<DasboardSidebar />
 			<SidebarInset className='overflow-hidden'>
 				<header className='flex h-16 shrink-0 items-center gap-2 px-4 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12'>
