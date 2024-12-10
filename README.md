@@ -1,3 +1,12 @@
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=nextjs" height="200" alt="nestjs logo"  />
+</p>
+
+
+## Description
+
+This frontend for my pet-project <strong>crm-app</strong>. It's built with NextJS framework.
+
 ## Project setup
 
 - first install packeges
