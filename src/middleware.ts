@@ -21,7 +21,7 @@ export default function middleware(request: NextRequest) {
 	const redirects: { [key: string]: () => NextResponse | null } = {
 		'/': () =>
 			NextResponse.redirect(
-				new URL(pageConfig.dashboard.settings.main, request.url)
+				new URL(pageConfig.dashboard.orders, request.url)
 			),
 		[pageConfig.dashboard.main]: () =>
 			NextResponse.redirect(
@@ -30,7 +30,7 @@ export default function middleware(request: NextRequest) {
 		[pageConfig.auth.main]: () =>
 			session
 				? NextResponse.redirect(
-						new URL(pageConfig.dashboard.settings.main, request.url)
+						new URL(pageConfig.dashboard.orders, request.url)
 					)
 				: null
 	}
@@ -42,7 +42,7 @@ export default function middleware(request: NextRequest) {
 	if (pathname.startsWith(pageConfig.auth.main)) {
 		if (session) {
 			return NextResponse.redirect(
-				new URL(pageConfig.dashboard.settings.main, request.url)
+				new URL(pageConfig.dashboard.orders, request.url)
 			)
 		}
 		return NextResponse.next()
