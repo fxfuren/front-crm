@@ -10,11 +10,5 @@ export const formSchema = z.object({
 	issue: z.string().min(5, {
 		message: 'Описание проблемы должно быть не менее 5 символов.'
 	}),
-	price: z
-		.string()
-		.optional()
-		.refine(value => /^\d+(\.\d{1,2})?$/.test(value), {
-			message:
-				'Цена должна быть числом с не более чем 2 десятичными знаками.'
-		})
+	price: z.union([z.string().optional(), z.null()])
 })
